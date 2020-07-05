@@ -1,13 +1,42 @@
-from tkinter import *
-root=Tk()
-def retrieve_input():
-    inputValue=textBox.get("1.0",END)
-    print(inputValue)
-textBox=Text(root, height=1, width=10)
-textBox.pack()
-buttonCommit=Button(root, height=1, width=10, text="Commit", 
-                    command=lambda: retrieve_input())
-#command=lambda: retrieve_input() >>> just means do this when i press the button
-buttonCommit.pack()
+import os
 
-mainloop()
+# """
+# Recursively searches 'directory' for .txt files
+# """
+# that contain string s.
+def searchDir(directory, s):
+    filelist = []
+    files = os.listdir(directory)
+    for file in files:
+        fullname = directory + '/' + file
+    # try:
+        if os.path.isdir(fullname):
+            searchDir(fullname)
+        else:
+            if fullname[-4:] == '.txt':
+                f = open(fullname, 'r')
+                for lines in f:
+                    if s in lines:
+                        filelist.append(fullname)
+                        break
+searchDir('/home/l0wk3yofficial/Documents/self-made-projects/python/isoMountLinux', 'test.txt')
+    # except:
+    #     print('Not Found')                        
+
+# def searchDir(directory, s):
+#     filelist = []
+#     files = os.listdir(directory)
+#     for file in files:
+#         fullname = directory + '/' + file
+#     try:
+#         if os.path.isdir(fullname):
+#             searchDir(fullname)
+#     except:
+#         pass
+#     else:
+#         if fullname[-4:] == '.txt':
+#             f = open(fullname, 'r')
+#             for lines in f:
+#                 if s in lines:
+#                     filelist.append(fullname)
+#                     break

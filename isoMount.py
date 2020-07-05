@@ -1,16 +1,19 @@
 #!/usr/bin/ python
 
 import subprocess
+import keyboard
 from tkinter import *  
 from tkinter import filedialog
 from tkinter.ttk import *
 
 window = Tk()
 
-# Creates a label widget (Text inside the window)
-# text1=Label(window, text="Hello World!")
-# text2=Label(window, text="Hello World!")
-# Appends text to the window at specified grid coords
+
+
+def windowProperties():
+    window.resizable(width=False, height=False)
+windowProperties()
+
 def upload():
     filename = filedialog.askopenfilename(initialdir = "/", title='Select Image')
     with open("uploadPath.txt", "w") as text_file:        
@@ -18,7 +21,7 @@ def upload():
         text_file.close()
     print('Selected Image: ', filename)
 
-inputButton = Button(window, text='Image File', command=upload)
+inputButton = Button(window, text='Image File', command=upload, )
 
 def output():
     outputDirectory = textBox.get("1.0",END)
@@ -27,14 +30,17 @@ def output():
         text_file.write(str('%s' % outputDirectory.replace(" ", "\ ").replace("'", "\ ")))
         text_file.close()
     if outputDirectory == u'\n':
-        print("No output directory selected.")
+        subprocess.call(["clear"])
+        print("No output directory selected.\n\n")
         subprocess.call('df -h', shell=True)
     else:
         print('Destination: ', outputDirectory)
-outputButton = Button(window, text='Output Location', command=lambda: output())
-textBox=Text(window, height=1, width=10)
-textBox.grid()
+    
 
+
+
+outputButton = Button(window, text='Set Output Location', command=lambda: output())
+textBoxLabel = Label(window, text='Output Destination: ')
 
 
 #This is a button for output
@@ -120,7 +126,7 @@ progress = Progressbar(window, orient = HORIZONTAL,
   
 # Function responsible for the updation 
 # of the progress bar value 
-def bar(): 
+def progBar(): 
     import time 
     progress['value'] = 0
     window.update_idletasks() 
@@ -170,11 +176,13 @@ def bar():
 
 # infinite loop 
 
-
-inputButton.grid()
-outputButton.grid()
-actionButton.grid()
-progress.grid()
+textBoxLabel.grid(row=1, column=0)
+textBox=Text(window, height=1, width=10)
+textBox.grid(row=1, column=1)
+inputButton.grid(row=0, column=1)
+outputButton.grid(row=1, column=2)
+actionButton.grid(row=2, column=1)
+# progress.grid()
 
 
 # text2.grid(column=0, row=1)
